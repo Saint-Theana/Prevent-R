@@ -19,8 +19,10 @@ https://github.com/Saint-Theana/Prevent-Q
 ```
 
 三:打补丁<br />
-python3 patch_Q.py -a apk_Q -s services
 
+```SHELL
+ python3 patch_Q.py -a apk_Q -s services
+```
 
 理论上一共会打22处
 IntentResolver patched 2<br />
@@ -38,12 +40,14 @@ copying PreventRunningUtils<br />
 
 
 四:用apktool将service目录的smali反编译成dex:<br />
-java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
-​
+
+```SHELL
+ java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
+​```
 
 得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓10一般是两个吧)替换掉就行了<br />
 
-五:安装请参考别的文档或者看第六
+五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip
 
 六:magisk大法，本仓库里会提供一个magisk模块(BreventPatch-v2.zip)，替换掉里面的services.jar然后刷进去就行了<br />
 
