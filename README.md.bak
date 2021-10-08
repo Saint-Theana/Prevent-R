@@ -49,7 +49,7 @@ java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
 五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip
 六:magisk大法，本仓库里会提供一个magisk模块(BreventPatch-v2.zip)，替换掉里面的services.jar然后刷进去就行了<br />
 
-七:给smali打patch极其困难(至少对我来说，也许是我太菜了吧)，<br />
+七:给smali打patch极其困难(之前对我来说，也许是我太菜了吧)，<br />
      我没办法保证这个补丁一定能用(即使在本人手机上测试通过)，<br />
      因为每个系统的services.jar的源码不可能一样，而且编译的时候优化也不一样，<br />
      所以导致了寄存器(请搜索smali 寄存器)极其混乱，我已经尽可能地优化补丁脚本，<br />
