@@ -13,16 +13,12 @@ https://github.com/Saint-Theana/Prevent-Q
 如果你的系统也是odex化的而且services.jar不完整(很小)，那么请参考别的文档反编译services.jar<br />
 一:将/system/framework/services.jar复制到work_dir目录中<br />
 二:用apktool将service.jar反编译成smali:<br />
-
-​```
 java -Xmx800m -jar apktool_2.6.0.jar d work_dir/services.jar  -o services
-```
 
 三:打补丁<br />
-
-​```
 python3 patch_Q.py -a apk_Q -s services
-```
+
+
 理论上一共会打22处
 IntentResolver patched 2
 ActivityStack patched 4
@@ -39,10 +35,8 @@ copying PreventRunningUtils
 
 
 四:用apktool将service目录的smali反编译成dex:<br />
-
-​```
 java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
-​```
+​
 
 得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓10一般是两个吧)替换掉就行了<br />
 
