@@ -407,7 +407,7 @@ class ActivityStack(Patch):
                 output.write(line)
                 output.write(os.linesep)
                 argument = self.get_method_arguments(line)[0]
-                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;" %(argument,self.lastActivityRecordRef))
+                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Landroid/view/IApplicationToken$Stub;" %(argument,self.lastActivityRecordRef))
                 output.write(os.linesep)
                 output.write("invoke-static/range {%s .. %s}, Lcom/android/server/am/PreventRunningUtils;->onDestroyActivity(Landroid/os/IBinder;)V" %(argument, argument))
                 output.write(os.linesep)
