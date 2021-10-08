@@ -39,7 +39,7 @@ copying PreventRunningHook<br />
 copying PreventRunningUtils<br />
 
 
-四:用apktool将service目录的smali反编译成dex:<br />
+四:用apktool将service目录的smali反编译成dex<br />
 
 ```SHELL
  java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
