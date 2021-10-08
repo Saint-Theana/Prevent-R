@@ -22,26 +22,24 @@ https://github.com/Saint-Theana/Prevent-Q
 
 ```SHELL
  python3 patch_Q.py -a apk_Q -s services
-```
 
-理论上一共会打22处
-IntentResolver patched 2<br />
-ActivityStack patched 4<br />
-ActivityRecord patched 1<br />
-ProcessList patched 2<br />
-MediaFocusControl patched 3<br />
-Vpn patched 1<br />
-ConnectivityService patched 1<br />
-ActivityStackSupervisor patched 2<br />
-ActivityManagerService patched 6<br />
-copying PreventRunning<br />
-copying PreventRunningHook<br />
-copying PreventRunningUtils<br />
+#理论上一共会打22处
+#IntentResolver patched 2<br />
+#ActivityStack patched 4<br />
+#ActivityRecord patched 1<br />
+#ProcessList patched 2<br />
+#MediaFocusControl patched 3<br />
+#Vpn patched 1<br />
+#ConnectivityService patched 1<br />
+#ActivityStackSupervisor patched 2<br />
+#ActivityManagerService patched 6<br />
+#copying PreventRunning<br />
+#copying PreventRunningHook<br />
+#copying PreventRunningUtils<br />
+#
+#四:用apktool将service目录的smali反编译成dex<br />
 
 
-四:用apktool将service目录的smali反编译成dex<br />
-
-```SHELL
  java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
 ​```
 
