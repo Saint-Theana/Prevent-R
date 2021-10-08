@@ -1,6 +1,5 @@
 ## 黑域一键补丁 使用说明
 
-```
 https://github.com/Saint-Theana/Prevent-Q
 
 声明:本人仅仅参考了某人为Miui做的黑域补丁，
@@ -14,11 +13,13 @@ https://github.com/Saint-Theana/Prevent-Q
 如果你的系统也是odex化的而且services.jar不完整(很小)，那么请参考别的文档反编译services.jar
 一:将/system/framework/services.jar复制到work_dir目录中
 二:用apktool将service.jar反编译成smali:
+
 ​```shell
 java -Xmx800m -jar apktool_2.6.0.jar d work_dir/services.jar  -o services
 ```
 
 三:打补丁
+
 ​```shell
 python3 patch_Q.py -a apk_Q -s services
 ```
