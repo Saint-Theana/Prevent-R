@@ -2,6 +2,8 @@
 # encoding: utf-8
 # Author: Liu DongMiao <liudongmiao@gmail.com>
 # Modified By Pzqqt <pzqqt88198@gmail.com>
+# Modified By Saint-Theana@github
+# https://github.com/Saint-Theana/Prevent-Q
 
 import locale
 import os
