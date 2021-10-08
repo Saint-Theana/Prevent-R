@@ -18,12 +18,10 @@ https://github.com/Saint-Theana/Prevent-Q
  java -Xmx800m -jar apktool_2.6.0.jar d work_dir/services.jar  -o services
 ```
 
-三:打补丁，回编译dex<br />
+三:打补丁<br />
 
 ```SHELL
  python3 patch_Q.py -a apk_Q -s services
- 
- java -Xmx800m -jar apktool_2.6.0.jar b services -o services.jar
 ```
 
 理论上一共会打22处
@@ -40,6 +38,11 @@ copying PreventRunning<br />
 copying PreventRunningHook<br />
 copying PreventRunningUtils<br />
 
+四:用apktool将service目录的smali反编译成dex<br />
+
+```SHELL
+ java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
+​```
 
 得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓10一般是两个吧)替换掉就行了<br />
 五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip
