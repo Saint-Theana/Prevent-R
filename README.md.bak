@@ -1,23 +1,24 @@
-黑域一键补丁 使用说明
+## 黑域一键补丁 使用说明
 
 https://github.com/Saint-Theana/Prevent-Q
 
-声明:本人仅仅参考了某人为Miui做的黑域补丁，修改原黑域补丁脚本得到本仓库的内容(原帖:https://www.coolapk.com/feed/28578557?shareKey=OTVkNzFlYjVkZjIzNjE2MDZlYTY~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3)
+声明:本人仅仅参考了某人为Miui做的黑域补丁，
+     修改原黑域补丁脚本得到本仓库的内容(原帖:https://www.coolapk.com/feed/28578557?shareKey=OTVkNzFlYjVkZjIzNjE2MDZlYTY~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3)
 
-安卓10: <br />
-需要python和openjdk<br />
-开始之前请看第七:<br />
+安卓10: 
+需要python和openjdk
+开始之前请看第七:
 
-这里本人的系统虽然是odex化但是services.jar是完整的，大小为10M左右。<br />
-如果你的系统也是odex化的而且services.jar不完整(很小)，那么请参考别的文档反编译services.jar<br />
-一:将/system/framework/services.jar复制到work_dir目录中<br />
-二:用apktool将service.jar反编译成smali:<br />
+这里本人的系统虽然是odex化但是services.jar是完整的，大小为10M左右。
+如果你的系统也是odex化的而且services.jar不完整(很小)，那么请参考别的文档反编译services.jar
+一:将/system/framework/services.jar复制到work_dir目录中
+二:用apktool将service.jar反编译成smali:
 
 ​```shell
 java -Xmx800m -jar apktool_2.6.0.jar d work_dir/services.jar  -o services
 ```
 
-三:打补丁<br />
+三:打补丁
 
 ​```shell
 python3 patch_Q.py -a apk_Q -s services
@@ -37,8 +38,7 @@ copying PreventRunningHook
 copying PreventRunningUtils
 
 
-四:用apktool将service目录的smali反编译成dex:<br />
-
+四:用apktool将service目录的smali反编译成dex:
 ​```shell
 java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
 ​```
@@ -65,3 +65,5 @@ java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
     2:优化vpn
     详情看https://www.coolapk.com/feed/30502584?shareKey=NWFjNmVkY2ZhMzRiNjE2MDZjZWU~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3
     
+### 
+
