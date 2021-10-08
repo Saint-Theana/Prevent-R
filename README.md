@@ -43,7 +43,9 @@ copying PreventRunningUtils<br />
 
 ```SHELL
  java -Xmx800m -jar apktool_2.6.0.jar  b services -o services.jar
+
 ​```
+
 
 得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓10一般是两个吧)替换掉就行了<br />
 五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip
