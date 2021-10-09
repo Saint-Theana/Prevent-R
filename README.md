@@ -3,7 +3,7 @@
 
 https://github.com/Saint-Theana/Prevent-Q
 
-声明:本人仅仅参考了某人为Miui做的黑域补丁，修改原黑域补丁脚本得到本仓库的内容(原帖:https://www.coolapk.com/feed/28578557?shareKey=OTVkNzFlYjVkZjIzNjE2MDZlYTY~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3)
+声明:本人仅仅参考了某人为Miui做的黑域补丁，修改原黑域补丁脚本以及对原黑域的framework进行改动得到本仓库的内容(原帖:https://www.coolapk.com/feed/28578557?shareKey=OTVkNzFlYjVkZjIzNjE2MDZlYTY~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3)
 
 安卓10: <br />
 需要python和openjdk<br />
@@ -60,3 +60,13 @@ copying PreventRunningUtils<br />
 1:优化音乐<br />
 2:优化vpn<br />
 详情看https://www.coolapk.com/feed/30502584?shareKey=NWFjNmVkY2ZhMzRiNjE2MDZjZWU~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3<br />
+
+九:经过多次修改Apk已经没有报错了(暂时没看到错误)
+   不过仍有一处暂时没法实现:InotificationManager.getPriority()方法已经移除，
+   然而在NotificationRecord中仍然存在，不过我想不到Hook获取mNotificationList的方法
+   所以可行的做法是对NotificationManagerService进行打补丁，将自身Service传递给黑域，
+   然后反射获取mNotificationList或者貌似直接获取也行，最后封装getPriority方法就行了。
+   其实这个特性貌似只在强迫症选项中的强行停止后台程序触发还有列表会显示星星
+   无伤大雅。
+   
+十:apk以后再开源吧
