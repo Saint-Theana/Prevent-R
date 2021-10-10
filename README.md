@@ -21,7 +21,7 @@ https://github.com/Saint-Theana/Prevent-R
 三:打补丁，回编译dex<br />
 
 ```SHELL
- python3 patch_Q.py -a apk_Q -s services
+ python3 patch_R.py -a apk_R -s services
  
  java -Xmx800m -jar apktool_2.6.0.jar b services -o services.jar
 ```
