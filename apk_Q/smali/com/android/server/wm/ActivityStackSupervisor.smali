@@ -1,14 +1,14 @@
-.method cleanUpRemovedTaskLocked(Lcom/android/server/wm/TaskRecord;ZZ)V
+.method cleanUpRemovedTaskLocked(Lcom/android/server/wm/Task;ZZ)V
     .registers 6
 
     :try_start_0
-    invoke-direct {p0, p1, p2, p3}, Lcom/android/server/wm/ActivityStackSupervisor;->cleanUpRemovedTaskLocked$Pr(Lcom/android/server/wm/TaskRecord;ZZ)V
+    invoke-direct {p0, p1, p2, p3}, Lcom/android/server/wm/ActivityStackSupervisor;->cleanUpRemovedTaskLocked$Pr(Lcom/android/server/wm/Task;ZZ)V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
     if-eqz p2, :cond_0
 
-    invoke-virtual {p1}, Lcom/android/server/wm/TaskRecord;->getBaseIntent()Landroid/content/Intent;
+    invoke-virtual {p1}, Lcom/android/server/wm/Task;->getBaseIntent()Landroid/content/Intent;
 
     move-result-object v0
 
@@ -22,7 +22,7 @@
 
     if-eqz p2, :cond_1
 
-    invoke-virtual {p1}, Lcom/android/server/wm/TaskRecord;->getBaseIntent()Landroid/content/Intent;
+    invoke-virtual {p1}, Lcom/android/server/wm/Task;->getBaseIntent()Landroid/content/Intent;
 
     move-result-object v1
 

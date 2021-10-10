@@ -290,7 +290,7 @@ class ActivityManagerService(Patch):
                 method_name, method_body = self.methods[".method public final startActivity(Landroid/app/IApplicationThread;Ljava/lang/String;Landroid/content/Intent;Ljava/lang/String;Landroid/os/IBinder;Ljava/lang/String;IILandroid/app/ProfilerInfo;Landroid/os/Bundle;)I"]
                 # 如果method名在method名修正集合里
                 if method_name in self.fixing:
-                    #print("fixing "+method_name)
+                    print("fixing "+method_name)
                     # 写入新的method语句体
                     # 写入一个空行
                     # 把原本的method语句块的(首行的)method名末尾加上"$Pr"
@@ -305,7 +305,7 @@ class ActivityManagerService(Patch):
                 method_name, method_body = self.methods[method_signature]
                 # 如果method名在method名修正集合里
                 if method_name in self.fixing:
-                    #print("fixing "+method_name)
+                    print("fixing "+method_name)
                     # 写入新的method语句体
                     # 写入一个空行
                     # 把原本的method语句块的(首行的)method名末尾加上"$Pr"
@@ -391,7 +391,7 @@ class ActivityStack(Patch):
                 # 父类定义的get_method_arguments方法: 获取smali的method参数 返回参数列表
                 # 取此列表的第一个参数赋值给argument变量
                 argument = self.get_method_arguments(line)[0]
-                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Landroid/view/IApplicationToken$Stub;" %(argument, self.lastActivityRecordRef))
+                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Lcom/android/server/wm/ActivityRecord$Token;" %(argument, self.lastActivityRecordRef))
                 output.write(os.linesep)
                 output.write("    invoke-static/range {%s .. %s},"
                              " Lcom/android/server/am/PreventRunningUtils;"
@@ -407,7 +407,7 @@ class ActivityStack(Patch):
                 output.write(line)
                 output.write(os.linesep)
                 argument = self.get_method_arguments(line)[0]
-                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Landroid/view/IApplicationToken$Stub;" %(argument,self.lastActivityRecordRef))
+                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Lcom/android/server/wm/ActivityRecord$Token;" %(argument,self.lastActivityRecordRef))
                 output.write(os.linesep)
                 output.write("invoke-static/range {%s .. %s}, Lcom/android/server/am/PreventRunningUtils;->onDestroyActivity(Landroid/os/IBinder;)V" %(argument, argument))
                 output.write(os.linesep)
@@ -442,7 +442,7 @@ class ActivityStack(Patch):
                 else:
                     output.write(line)
                 output.write(os.linesep)
-                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Landroid/view/IApplicationToken$Stub;" %(arguments[2],self.lastActivityRecordRef) )
+                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Lcom/android/server/wm/ActivityRecord$Token;" %(arguments[2],self.lastActivityRecordRef) )
                 output.write(os.linesep)
                 output.write("iget-boolean %s, %s, Lcom/android/server/wm/ActivityRecord;->finishing:Z" %(arguments[3],self.lastActivityRecordRef) )
                 output.write(os.linesep)
@@ -616,6 +616,13 @@ class ActivityRecord(Patch):
 
     def patch(self, output, line):
         # 写得非常不清真的代码
+        if ".class final Lcom/android/server/wm/ActivityRecord;" in line:
+            output.write(".class public final Lcom/android/server/wm/ActivityRecord;")
+            output.write(os.linesep)
+            self.patched += 1
+            arg_sp = ""
+            arg2_sp = ""
+            return True
         if ".method static forTokenLocked(Landroid/os/IBinder;)Lcom/android/server/wm/ActivityRecord;" in line:
             output.write(".method public static forTokenLocked(Landroid/os/IBinder;)Lcom/android/server/wm/ActivityRecord;")
             output.write(os.linesep)
@@ -689,7 +696,7 @@ class ActivityStackSupervisor(Patch):
             output.write(os.linesep)
             arguments = self.get_method_arguments(line)
             argument = arguments[0]
-            output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Landroid/view/IApplicationToken$Stub;" %(argument,self.lastActivityRecordRef)) 
+            output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Lcom/android/server/wm/ActivityRecord$Token;" %(argument,self.lastActivityRecordRef)) 
             output.write(os.linesep)
             output.write("    invoke-static/range {%s .. %s},"
                          " Lcom/android/server/am/PreventRunningUtils;->onLaunchActivity(Landroid/os/IBinder;)V" % (argument, argument))

@@ -1,11 +1,11 @@
 
 黑域一键补丁 使用说明
 
-https://github.com/Saint-Theana/Prevent-Q
+https://github.com/Saint-Theana/Prevent-R
 
 声明:本人仅仅参考了某人为Miui做的黑域补丁，修改原黑域补丁脚本以及对原黑域的framework进行改动得到本仓库的内容(原帖:https://www.coolapk.com/feed/28578557?shareKey=OTVkNzFlYjVkZjIzNjE2MDZlYTY~&shareUid=1163547&shareFrom=com.coolapk.market_11.0.3)
 
-安卓10: <br />
+安卓11: <br />
 需要python和openjdk<br />
 开始之前请看第七:<br />
 
@@ -28,8 +28,8 @@ https://github.com/Saint-Theana/Prevent-Q
 
 理论上一共会打22处
 IntentResolver patched 2<br />
-ActivityStack patched 4<br />
-ActivityRecord patched 1<br />
+ActivityStack patched 3<br />
+ActivityRecord patched 2<br />
 ProcessList patched 2<br />
 MediaFocusControl patched 3<br />
 Vpn patched 1<br />
@@ -41,7 +41,7 @@ copying PreventRunningHook<br />
 copying PreventRunningUtils<br />
 
 
-得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓10一般是两个吧)替换掉就行了<br />
+得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓11一般是两个吧)替换掉就行了<br />
 五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip
 六:magisk大法，本仓库里会提供一个magisk模块(BreventPatch-v2.zip)，替换掉里面的services.jar然后刷进去就行了<br />
 

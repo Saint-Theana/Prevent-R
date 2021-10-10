@@ -574,6 +574,96 @@
     goto :goto_a
 .end method
 
+.method public startService(Landroid/app/IApplicationThread;Landroid/content/Intent;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;I)Landroid/content/ComponentName;
+    .registers 9
+    .param p1, "caller"  # Landroid/app/IApplicationThread;
+    .param p2, "service"  # Landroid/content/Intent;
+    .param p3, "str"  # Ljava/lang/String;
+    .param p4, "z"  # Z
+    .param p5, "str2"  # Ljava/lang/String;
+    .param p6, "str3"  # Ljava/lang/String;
+    .param p7, "i"  # I
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/TransactionTooLargeException;
+        }
+    .end annotation
+
+    .prologue
+    .line 121
+    :try_start_0
+    invoke-static {p1}, Lcom/android/server/am/PreventRunningUtils;->setSender(Landroid/app/IApplicationThread;)V
+
+    .line 122
+    invoke-static {p1, p2}, Lcom/android/server/am/PreventRunningUtils;->hookStartService(Landroid/app/IApplicationThread;Landroid/content/Intent;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_11
+
+    .line 123
+    invoke-virtual/range {p0 .. p7}, Lcom/android/server/am/ActivityManagerService;->startService$Pr(Landroid/app/IApplicationThread;Landroid/content/Intent;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;I)Landroid/content/ComponentName;
+    :try_end_c
+    .catchall {:try_start_0 .. :try_end_c} :catchall_19
+
+    move-result-object v0
+
+    .line 128
+    invoke-static {}, Lcom/android/server/am/PreventRunningUtils;->clearSender()V
+
+    .line 126
+    :goto_10
+    return-object v0
+
+    .line 125
+    :cond_11
+    :try_start_11
+    invoke-static {}, Lcom/android/server/am/PreventRunningUtils;->clearSender()V
+    :try_end_14
+    .catchall {:try_start_11 .. :try_end_14} :catchall_19
+
+    .line 126
+    const/4 v0, 0x0
+
+    .line 128
+    invoke-static {}, Lcom/android/server/am/PreventRunningUtils;->clearSender()V
+
+    goto :goto_10
+
+    :catchall_19
+    move-exception v0
+
+    invoke-static {}, Lcom/android/server/am/PreventRunningUtils;->clearSender()V
+
+    .line 129
+    throw v0
+.end method
+
+.method public startService$Pr(Landroid/app/IApplicationThread;Landroid/content/Intent;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;I)Landroid/content/ComponentName;
+    .registers 9
+    .param p1, "iApplicationThread"  # Landroid/app/IApplicationThread;
+    .param p2, "intent"  # Landroid/content/Intent;
+    .param p3, "str"  # Ljava/lang/String;
+    .param p4, "z"  # Z
+    .param p5, "str2"  # Ljava/lang/String;
+    .param p6, "str3"  # Ljava/lang/String;
+    .param p7, "i"  # I
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/TransactionTooLargeException;
+        }
+    .end annotation
+
+    .prologue
+    .line 134
+    new-instance v0, Ljava/lang/UnsupportedOperationException;
+
+    invoke-direct {v0}, Ljava/lang/UnsupportedOperationException;-><init>()V
+
+    throw v0
+.end method
+
+
 .method final startProcessLocked(Ljava/lang/String;Landroid/content/pm/ApplicationInfo;ZILjava/lang/String;Landroid/content/ComponentName;ZZIZLjava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/Runnable;Ljava/lang/String;)Lcom/android/server/am/ProcessRecord;
     .registers 18
 
