@@ -78,8 +78,6 @@ class Patch(object):
         patched = 0
         # get_path方法定义了要打补丁的文件路径
         path = self.build_path(self.get_path())
-           
-
         output = open(path + ".patched", "w")
         for line in open(path, "r"):
             # 打补丁动作在此
@@ -290,7 +288,7 @@ class ActivityManagerService(Patch):
                 method_name, method_body = self.methods[".method public final startActivity(Landroid/app/IApplicationThread;Ljava/lang/String;Landroid/content/Intent;Ljava/lang/String;Landroid/os/IBinder;Ljava/lang/String;IILandroid/app/ProfilerInfo;Landroid/os/Bundle;)I"]
                 # 如果method名在method名修正集合里
                 if method_name in self.fixing:
-                    print("fixing "+method_name)
+                    #print("fixing "+method_name)
                     # 写入新的method语句体
                     # 写入一个空行
                     # 把原本的method语句块的(首行的)method名末尾加上"$Pr"
@@ -305,7 +303,7 @@ class ActivityManagerService(Patch):
                 method_name, method_body = self.methods[method_signature]
                 # 如果method名在method名修正集合里
                 if method_name in self.fixing:
-                    print("fixing "+method_name)
+                    #print("fixing "+method_name)
                     # 写入新的method语句体
                     # 写入一个空行
                     # 把原本的method语句块的(首行的)method名末尾加上"$Pr"
@@ -862,6 +860,88 @@ class MediaFocusControl(Patch):
             return 1
 
 
+
+
+class ConfigurationContainer(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+    method_name_sp = ""
+    arg_sp = ""
+    arg2_sp = ""
+    startP1Tracing=False
+    p1Ocupied=False
+    p1Alternative="p1"
+    p1Identity="p1"
+    
+    def get_path(self):
+        return "com/android/server/wm/ConfigurationContainer.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".method protected abstract getChildAt(I)Lcom/android/server/wm/ConfigurationContainer;" in line:
+            output.write(".method public abstract getChildAt(I)Lcom/android/server/wm/ConfigurationContainer;")
+            output.write(os.linesep)
+            self.patched += 1
+            arg_sp = ""
+            arg2_sp = ""
+            return True
+        if ".method protected abstract getChildCount()I" in line:
+            output.write(".method public abstract getChildCount()I")
+            output.write(os.linesep)
+            self.patched += 1
+            arg_sp = ""
+            arg2_sp = ""
+            return True
+
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 2:
+            return self.patched
+        else:
+            return 2
+
+class WindowContainer(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+    method_name_sp = ""
+    arg_sp = ""
+    arg2_sp = ""
+    startP1Tracing=False
+    p1Ocupied=False
+    p1Alternative="p1"
+    p1Identity="p1"
+    
+    def get_path(self):
+        return "com/android/server/wm/WindowContainer.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".method protected getChildAt(I)Lcom/android/server/wm/WindowContainer;" in line:
+            output.write(".method public getChildAt(I)Lcom/android/server/wm/WindowContainer;")
+            output.write(os.linesep)
+            self.patched += 1
+            arg_sp = ""
+            arg2_sp = ""
+            return True
+        if ".method protected getChildCount()I" in line:
+            output.write(".method public getChildCount()I")
+            output.write(os.linesep)
+            self.patched += 1
+            arg_sp = ""
+            arg2_sp = ""
+            return True
+
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 2:
+            return self.patched
+        else:
+            return 2
+
 def main():
     # OptionParser这部分就不提了 如感兴趣 自行查阅相关资料
     from optparse import OptionParser
@@ -874,10 +954,13 @@ def main():
 
     (options, args) = parser.parse_args()
 
+
     IntentResolver(options.dir_services).run()
     ActivityStack(options.dir_services).run()
     ActivityRecord(options.dir_services).run()
     ProcessList(options.dir_services).run()
+    WindowContainer(options.dir_services).run()
+    ConfigurationContainer(options.dir_services).run()
     MediaFocusControl(options.dir_services).run()
     Vpn(options.dir_services).run()
     ConnectivityService(options.dir_services).run()
