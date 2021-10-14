@@ -593,7 +593,53 @@ class ProcessList(Patch):
         else:
             return 2
 
+class ActivityRecordToken(Patch):
+    # 此类和IntentResolver类类似 不再详解
 
+    patched = 0
+
+    
+    def get_path(self):
+        return "com/android/server/wm/ActivityRecord$Token.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".field private weakActivity:Ljava/lang/ref/WeakReference;" in line:
+            output.write(".field public weakActivity:Ljava/lang/ref/WeakReference;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 1:
+            return self.patched
+        else:
+            return 1
+
+class ActivityTaskManagerService(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+
+    
+    def get_path(self):
+        return "com/android/server/wm/ActivityTaskManagerService.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".field mRootWindowContainer:Lcom/android/server/wm/RootWindowContainer;" in line:
+            output.write(".field public mRootWindowContainer:Lcom/android/server/wm/RootWindowContainer;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 1:
+            return self.patched
+        else:
+            return 1
 
 
 
@@ -601,13 +647,7 @@ class ActivityRecord(Patch):
     # 此类和IntentResolver类类似 不再详解
 
     patched = 0
-    method_name_sp = ""
-    arg_sp = ""
-    arg2_sp = ""
-    startP1Tracing=False
-    p1Ocupied=False
-    p1Alternative="p1"
-    p1Identity="p1"
+
     
     def get_path(self):
         return "com/android/server/wm/ActivityRecord.smali"
@@ -618,24 +658,39 @@ class ActivityRecord(Patch):
             output.write(".class public final Lcom/android/server/wm/ActivityRecord;")
             output.write(os.linesep)
             self.patched += 1
-            arg_sp = ""
-            arg2_sp = ""
             return True
         if ".method static forTokenLocked(Landroid/os/IBinder;)Lcom/android/server/wm/ActivityRecord;" in line:
             output.write(".method public static forTokenLocked(Landroid/os/IBinder;)Lcom/android/server/wm/ActivityRecord;")
             output.write(os.linesep)
             self.patched += 1
-            arg_sp = ""
-            arg2_sp = ""
             return True
-
+        if ".method getStack()Lcom/android/server/wm/ActivityStack;" in line:
+            output.write(".method public getStack()Lcom/android/server/wm/ActivityStack;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".field app:Lcom/android/server/wm/WindowProcessController;" in line:
+            output.write(".field public app:Lcom/android/server/wm/WindowProcessController;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".field final info:Landroid/content/pm/ActivityInfo;" in line:
+            output.write(".field public final info:Landroid/content/pm/ActivityInfo;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".field final packageName:Ljava/lang/String;" in line:
+            output.write(".field public final packageName:Ljava/lang/String;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
 
     def get_patch_count(self):
         # 打补丁的次数可能会多于3次？
-        if self.patched > 1:
+        if self.patched > 6:
             return self.patched
         else:
-            return 1
+            return 6
 
 
 
@@ -866,13 +921,7 @@ class ConfigurationContainer(Patch):
     # 此类和IntentResolver类类似 不再详解
 
     patched = 0
-    method_name_sp = ""
-    arg_sp = ""
-    arg2_sp = ""
-    startP1Tracing=False
-    p1Ocupied=False
-    p1Alternative="p1"
-    p1Identity="p1"
+
     
     def get_path(self):
         return "com/android/server/wm/ConfigurationContainer.smali"
@@ -883,15 +932,11 @@ class ConfigurationContainer(Patch):
             output.write(".method public abstract getChildAt(I)Lcom/android/server/wm/ConfigurationContainer;")
             output.write(os.linesep)
             self.patched += 1
-            arg_sp = ""
-            arg2_sp = ""
             return True
         if ".method protected abstract getChildCount()I" in line:
             output.write(".method public abstract getChildCount()I")
             output.write(os.linesep)
             self.patched += 1
-            arg_sp = ""
-            arg2_sp = ""
             return True
 
 
@@ -901,18 +946,38 @@ class ConfigurationContainer(Patch):
             return self.patched
         else:
             return 2
+            
+class RootWindowContainer(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+
+    
+    def get_path(self):
+        return "com/android/server/wm/RootWindowContainer.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".method getDefaultTaskDisplayArea()Lcom/android/server/wm/TaskDisplayArea;" in line:
+            output.write(".method public getDefaultTaskDisplayArea()Lcom/android/server/wm/TaskDisplayArea;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 1:
+            return self.patched
+        else:
+            return 1
+
 
 class WindowContainer(Patch):
     # 此类和IntentResolver类类似 不再详解
 
     patched = 0
-    method_name_sp = ""
-    arg_sp = ""
-    arg2_sp = ""
-    startP1Tracing=False
-    p1Ocupied=False
-    p1Alternative="p1"
-    p1Identity="p1"
+
     
     def get_path(self):
         return "com/android/server/wm/WindowContainer.smali"
@@ -923,15 +988,11 @@ class WindowContainer(Patch):
             output.write(".method public getChildAt(I)Lcom/android/server/wm/WindowContainer;")
             output.write(os.linesep)
             self.patched += 1
-            arg_sp = ""
-            arg2_sp = ""
             return True
         if ".method protected getChildCount()I" in line:
             output.write(".method public getChildCount()I")
             output.write(os.linesep)
             self.patched += 1
-            arg_sp = ""
-            arg2_sp = ""
             return True
 
 
@@ -941,6 +1002,97 @@ class WindowContainer(Patch):
             return self.patched
         else:
             return 2
+
+
+class Task(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+
+    
+    def get_path(self):
+        return "com/android/server/wm/Task.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".field private mRootProcess:Lcom/android/server/wm/WindowProcessController;" in line:
+            output.write(".field public mRootProcess:Lcom/android/server/wm/WindowProcessController;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".method getStack()Lcom/android/server/wm/ActivityStack;" in line:
+            output.write(".method public getStack()Lcom/android/server/wm/ActivityStack;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".method getVisibility(Lcom/android/server/wm/ActivityRecord;)I" in line:
+            output.write(".method public getVisibility(Lcom/android/server/wm/ActivityRecord;)I")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 3:
+            return self.patched
+        else:
+            return 3
+
+
+class TaskDisplayArea(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+    method_name_sp = ""
+    
+    def get_path(self):
+        return "com/android/server/wm/TaskDisplayArea.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".method getFocusedStack()Lcom/android/server/wm/ActivityStack;" in line:
+            output.write(".method public getFocusedStack()Lcom/android/server/wm/ActivityStack;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".method getStack(I)Lcom/android/server/wm/ActivityStack;" in line:
+            output.write(".method public getStack(I)Lcom/android/server/wm/ActivityStack;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 2:
+            return self.patched
+        else:
+            return 2
+
+class WindowProcessController(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+    
+    def get_path(self):
+        return "com/android/server/wm/WindowProcessController.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".field private final mActivities:Ljava/util/ArrayList;" in line:
+            output.write(".field public final mActivities:Ljava/util/ArrayList;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 1:
+            return self.patched
+        else:
+            return 1
+            
 
 def main():
     # OptionParser这部分就不提了 如感兴趣 自行查阅相关资料
@@ -958,8 +1110,14 @@ def main():
     IntentResolver(options.dir_services).run()
     ActivityStack(options.dir_services).run()
     ActivityRecord(options.dir_services).run()
+    ActivityRecordToken(options.dir_services).run()
+    ActivityTaskManagerService(options.dir_services).run()
     ProcessList(options.dir_services).run()
     WindowContainer(options.dir_services).run()
+    WindowProcessController(options.dir_services).run()
+    RootWindowContainer(options.dir_services).run()
+    Task(options.dir_services).run()
+    TaskDisplayArea(options.dir_services).run()
     ConfigurationContainer(options.dir_services).run()
     MediaFocusControl(options.dir_services).run()
     Vpn(options.dir_services).run()

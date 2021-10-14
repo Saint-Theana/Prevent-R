@@ -26,19 +26,6 @@ https://github.com/Saint-Theana/Prevent-R
  java -Xmx800m -jar apktool_2.6.0.jar b services -o services.jar
 ```
 
-理论上一共会打22处
-IntentResolver patched 2<br />
-ActivityStack patched 3<br />
-ActivityRecord patched 2<br />
-ProcessList patched 2<br />
-MediaFocusControl patched 3<br />
-Vpn patched 1<br />
-ConnectivityService patched 1<br />
-ActivityStackSupervisor patched 2<br />
-ActivityManagerService patched 6<br />
-copying PreventRunning<br />
-copying PreventRunningHook<br />
-copying PreventRunningUtils<br />
 
 
 得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓11一般是两个吧)替换掉就行了<br />
