@@ -365,12 +365,12 @@ class ActivityStack(Patch):
 
     patched = 0
     method_name_sp = ""
-    arg_sp = ""
-    arg2_sp = ""
     startP1Tracing=False
     p1Ocupied=False
     p1Alternative="p1"
     p1Identity="p1"
+    astActivityRecordRef=""
+    extrapatchcount=0
     
     def get_path(self):
         return "com/android/server/wm/ActivityStack.smali"
@@ -397,20 +397,6 @@ class ActivityStack(Patch):
                 output.write(os.linesep)
                 self.patched += 1
                 return True
-        if self.method_name_sp == "destroyActivityLocked":
-            if "iget-object" in line:
-                if "Lcom/android/server/wm/ActivityRecord;->" in line:
-                    self.lastActivityRecordRef=re.findall("iget-object [pv][0-9]+, ([pv][0-9]+)",line)[0]
-            if "Lcom/android/server/wm/ClientLifecycleManager;->scheduleTransaction(Landroid/app/IApplicationThread;Landroid/os/IBinder;Landroid/app/servertransaction/ActivityLifecycleItem;)V" in line:
-                output.write(line)
-                output.write(os.linesep)
-                argument = self.get_method_arguments(line)[0]
-                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Lcom/android/server/wm/ActivityRecord$Token;" %(argument,self.lastActivityRecordRef))
-                output.write(os.linesep)
-                output.write("invoke-static/range {%s .. %s}, Lcom/android/server/am/PreventRunningUtils;->onDestroyActivity(Landroid/os/IBinder;)V" %(argument, argument))
-                output.write(os.linesep)
-                self.patched += 1
-                return True
             if "Lcom/android/server/wm/ActivityTaskManagerServiceInjector;->destroyActivity(Landroid/content/pm/ActivityInfo;)V" in line:
                 output.write(os.linesep)
                 self.patched += 1
@@ -430,6 +416,7 @@ class ActivityStack(Patch):
                         self.p1Ocupied=True
                         output.write("move-result-object "+self.p1Alternative)
                         output.write(os.linesep)
+                        self.extrapatchcount+=1
                         self.patched += 1
                         return True
             if "Lcom/android/server/wm/ClientLifecycleManager;->scheduleTransaction(Landroid/app/IApplicationThread;Landroid/os/IBinder;Landroid/app/servertransaction/ActivityLifecycleItem;)V" in line:
@@ -447,17 +434,18 @@ class ActivityStack(Patch):
                 output.write("invoke-static {%s, %s, %s}, Lcom/android/server/am/PreventRunningUtils;->onUserLeavingActivity(Landroid/os/IBinder;ZZ)V"%(arguments[2],arguments[3],self.p1Identity) )
                 output.write(os.linesep)
                 self.patched += 1
-                arg_sp = ""
-                arg2_sp = ""
                 return True
                 
 
     def get_patch_count(self):
         # 打补丁的次数可能会多于3次？
-        if self.patched > 3:
+        shouldpatch=2
+        if self.extrapatchcount > 0:
+            shouldpatch+=self.extrapatchcount
+        if self.patched > self.extrapatchcount:
             return self.patched
         else:
-            return 3
+            return self.extrapatchcount
 
 
 class ProcessList(Patch):
@@ -647,13 +635,36 @@ class ActivityRecord(Patch):
     # 此类和IntentResolver类类似 不再详解
 
     patched = 0
-
+    method_name_sp = ""
+    astActivityRecordRef=""
+    extrapatchcount=0
     
     def get_path(self):
         return "com/android/server/wm/ActivityRecord.smali"
 
     def patch(self, output, line):
         # 写得非常不清真的代码
+        if line.startswith(".method"):
+            self.method_name_sp = self.find_method_name(line.strip())
+        if self.method_name_sp == "destroyImmediately":
+            if "iget-object" in line:
+                if "Lcom/android/server/wm/ActivityRecord;->" in line:
+                    self.lastActivityRecordRef=re.findall("iget-object [pv][0-9]+, ([pv][0-9]+)",line)[0]
+            if "Lcom/android/server/wm/ClientLifecycleManager;->scheduleTransaction(Landroid/app/IApplicationThread;Landroid/os/IBinder;Landroid/app/servertransaction/ActivityLifecycleItem;)V" in line:
+                output.write(line)
+                output.write(os.linesep)
+                argument = self.get_method_arguments(line)[0]
+                output.write("iget-object %s, %s, Lcom/android/server/wm/ActivityRecord;->appToken:Lcom/android/server/wm/ActivityRecord$Token;" %(argument,self.lastActivityRecordRef))
+                output.write(os.linesep)
+                output.write("invoke-static/range {%s .. %s}, Lcom/android/server/am/PreventRunningUtils;->onDestroyActivity(Landroid/os/IBinder;)V" %(argument, argument))
+                output.write(os.linesep)
+                self.patched += 1
+                return True
+            if "Lcom/android/server/wm/ActivityTaskManagerServiceInjector;->destroyActivity(Landroid/content/pm/ActivityInfo;)V" in line:
+                output.write(os.linesep)
+                self.patched += 1
+                self.extrapatchcount+=1
+                return True
         if ".class final Lcom/android/server/wm/ActivityRecord;" in line:
             output.write(".class public final Lcom/android/server/wm/ActivityRecord;")
             output.write(os.linesep)
@@ -687,10 +698,13 @@ class ActivityRecord(Patch):
 
     def get_patch_count(self):
         # 打补丁的次数可能会多于3次？
-        if self.patched > 6:
+        sholdpatchcount=7
+        if self.extrapatchcount>0:
+            sholdpatchcount+=self.extrapatchcount
+        if self.patched > sholdpatchcount:
             return self.patched
         else:
-            return 6
+            return sholdpatchcount
 
 
 
