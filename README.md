@@ -29,8 +29,9 @@ https://github.com/Saint-Theana/Prevent-R
 
 
 得到的services.jar里的dex就是成品，把原services.jar里面的两个dex(安卓11一般是两个吧)替换掉就行了<br />
-五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip
-六:magisk大法，本仓库里会提供一个magisk模块(BreventPatch-v2.zip)，替换掉里面的services.jar然后刷进去就行了<br />
+五:安装请参考别的文档或者看第六，Brevent.apk请看BreventPatch-v2.zip<br />
+
+六:magisk大法，下载https://github.com/Saint-Theana/Prevent-App仓库中的release中的magisk模块文件，替换掉里面的services.jar然后刷进去就行了<br />
 
 七:给smali打patch极其困难(至少对我来说，也许是我太菜了吧)，<br />
 我没办法保证这个补丁一定能用(即使在本人手机上测试通过)，<br />
@@ -56,4 +57,4 @@ https://github.com/Saint-Theana/Prevent-R
    其实这个特性貌似只在强迫症选项中的强行停止后台程序触发还有列表会显示星星
    无伤大雅。
    
-十:apk以后再开源吧
+十:app已开源，地址:https://github.com/Saint-Theana/Prevent-App
