@@ -670,6 +670,11 @@ class ActivityRecord(Patch):
             output.write(os.linesep)
             self.patched += 1
             return True
+        if ".class public final Lcom/android/server/wm/ActivityRecord;" in line:
+            output.write(line)
+            output.write(os.linesep)
+            self.patched += 1
+            return True
         if ".method static forTokenLocked(Landroid/os/IBinder;)Lcom/android/server/wm/ActivityRecord;" in line:
             output.write(".method public static forTokenLocked(Landroid/os/IBinder;)Lcom/android/server/wm/ActivityRecord;")
             output.write(os.linesep)
@@ -692,6 +697,11 @@ class ActivityRecord(Patch):
             return True
         if ".field final packageName:Ljava/lang/String;" in line:
             output.write(".field public final packageName:Ljava/lang/String;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".field public final packageName:Ljava/lang/String;" in line:
+            output.write(line)
             output.write(os.linesep)
             self.patched += 1
             return True
@@ -1034,6 +1044,11 @@ class Task(Patch):
             output.write(os.linesep)
             self.patched += 1
             return True
+        if ".field mRootProcess:Lcom/android/server/wm/WindowProcessController;" in line:
+            output.write(".field public mRootProcess:Lcom/android/server/wm/WindowProcessController;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
         if ".method getStack()Lcom/android/server/wm/ActivityStack;" in line:
             output.write(".method public getStack()Lcom/android/server/wm/ActivityStack;")
             output.write(os.linesep)
@@ -1099,6 +1114,11 @@ class WindowProcessController(Patch):
     def patch(self, output, line):
         # 写得非常不清真的代码
         if ".field private final mActivities:Ljava/util/ArrayList;" in line:
+            output.write(".field public final mActivities:Ljava/util/ArrayList;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+        if ".field final mActivities:Ljava/util/ArrayList;" in line:
             output.write(".field public final mActivities:Ljava/util/ArrayList;")
             output.write(os.linesep)
             self.patched += 1
