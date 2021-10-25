@@ -1059,18 +1059,14 @@ class Task(Patch):
             output.write(os.linesep)
             self.patched += 1
             return True
-        if ".field stringName:Ljava/lang/String;" in line:
-            output.write(".field public stringName:Ljava/lang/String;")
-            output.write(os.linesep)
-            self.patched += 1
-            return True
+
 
     def get_patch_count(self):
         # 打补丁的次数可能会多于3次？
-        if self.patched > 4:
+        if self.patched > 3:
             return self.patched
         else:
-            return 4
+            return 3
 
 
 class TaskDisplayArea(Patch):
@@ -1131,6 +1127,28 @@ class WindowProcessController(Patch):
         else:
             return 1
             
+class WindowToken(Patch):
+    # 此类和IntentResolver类类似 不再详解
+
+    patched = 0
+    
+    def get_path(self):
+        return "com/android/server/wm/WindowToken.smali"
+
+    def patch(self, output, line):
+        # 写得非常不清真的代码
+        if ".field stringName:Ljava/lang/String;" in line:
+            output.write(".field public stringName:Ljava/lang/String;")
+            output.write(os.linesep)
+            self.patched += 1
+            return True
+
+    def get_patch_count(self):
+        # 打补丁的次数可能会多于3次？
+        if self.patched > 1:
+            return self.patched
+        else:
+            return 1
 
 def main():
     # OptionParser这部分就不提了 如感兴趣 自行查阅相关资料
@@ -1152,6 +1170,7 @@ def main():
     ActivityTaskManagerService(options.dir_services).run()
     ProcessList(options.dir_services).run()
     WindowContainer(options.dir_services).run()
+    WindowToken(options.dir_services).run()
     WindowProcessController(options.dir_services).run()
     RootWindowContainer(options.dir_services).run()
     Task(options.dir_services).run()
